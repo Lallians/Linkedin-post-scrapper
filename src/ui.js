@@ -86,14 +86,15 @@ class WidgetController {
             }
 
             await this.saveState();
-            this.updateUI();
+
 
         } catch (error) {
             console.error('Error while toggling the scaper: ', error);
             // Réinit if error
             this.isActive = false;
-            this.updateUI();
         }
+
+        this.updateUI();
 
         this.showLoading(false);
     }
@@ -185,7 +186,7 @@ class WidgetController {
         }
 
         // Update buttons availability
-        this.downloadBtn.disabled = this.dataCount === 0;
+        this.downloadBtn.disabled = this.dataCount === 0 || !this.isActive;
         this.resetBtn.disabled = this.dataCount <= 0 || this.isActive;
 
         this.updateDataCountUI();
