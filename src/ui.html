@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="header">
+    <h1>Linkedin post scraper</h1>
+</div>
+
+<div class="status">
+    <div class="status-indicator">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Disabled</span>
+    </div>
+    <div class="data-count" id="dataCount">0 posts</div>
+</div>
+
+<div class="controls">
+    <button class="btn btn-primary" id="toggleBtn">
+        Enable scraping
+    </button>
+
+    <button class="btn btn-success" id="downloadBtn" disabled>
+        Download collected data
+    </button>
+
+    <button class="btn btn-info" id="resetBtn" disabled>
+        Reset the collected data
+    </button>
+
+    <div class="loading" id="loading">
+        In progress...
+    </div>
+</div>
+
+<div class="info">
+    This extension is for personal use only. Use at your own expense.
+</div>
+
+<script src="ui.js"></script>
+</body>
+</html>

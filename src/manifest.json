@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Linkedin post scraper",
+  "version": "1.0",
+  "description": "Extension that allows you to scrap posts in real time and download the collected data as CSV.",
+  "permissions": [
+    "activeTab",
+    "storage",
+    "scripting"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "action": {
+    "default_popup": "ui.html",
+    "default_title": "Linkedin post scraper"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["scraper.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "background": {
+    "service_worker": "serviceworker.js"
+  }
+}
