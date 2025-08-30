@@ -180,3 +180,8 @@ To update the extension:
 - Ensure posts have been collected (counter > 0)
 - Check browser's download settings
 - Verify popup blockers aren't interfering
+
+
+## ⚠️ Disclaimer
+- Use this extension at your own expense. I will not be responsible of your usage.
+- I do not plan to support any user of this extension.
