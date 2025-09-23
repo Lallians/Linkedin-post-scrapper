@@ -26,6 +26,21 @@ body {
     margin-bottom: 16px;
 }
 
+.parameters {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #cecece;
+
+    input {
+        border: none;
+        width: 100%;
+    }
+}
+
 .status-indicator {
     display: flex;
     align-items: center;
@@ -56,6 +71,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    margin-bottom: 16px;
 }
 
 .btn {

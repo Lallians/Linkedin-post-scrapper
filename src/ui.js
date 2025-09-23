@@ -72,19 +72,45 @@ class WidgetController {
     async toggleScraper() {
         this.showLoading(true);
 
+        let selectorInput = document.querySelector('[name="selector"]');
+        let selector = '';
+        if(selectorInput) {
+            selector = selectorInput.value;
+        }
+
+        if(selector == '') {
+            alert('A selector is needed to operate.');
+            this.showLoading(false);
+            return;
+        }
+
         try {
             const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
 
+            let response = {};
             if (this.isActive) {
                 // Disable the scraper
-                await chrome.tabs.sendMessage(tab.id, { action: 'stopScraper' });
-                this.isActive = false;
+                response = await chrome.tabs.sendMessage(tab.id, { action: 'stopScraper' });
+
+                // change state only if operation was successful
+                if(response.success) {
+                    this.isActive = false;
+                }
             } else {
                 // Enable the scraper
-                await chrome.tabs.sendMessage(tab.id, { action: 'startScraper' });
-                this.isActive = true;
+                response = await chrome.tabs.sendMessage(tab.id, { action: 'startScraper', selector: selector });
+
+                // change state only if operation was successful
+                if(response.success) {
+                    this.isActive = true;
+                }
             }
 
+            if(!response.success) {
+                alert(response.message);
+            }
+
+            response.success;
             await this.saveState();
 
 

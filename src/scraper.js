@@ -10,7 +10,7 @@ class PostScraper {
         // Configuration
         this.config = {
             containerSelector: '[role="article"]',
-            contentSelector: '.uQwGiLDaGJtjfoiCxQSAxVWyyqLPWlJMn',
+            contentSelector: '',
             observeTarget: document.body,
             debounceDelay: 100,
             maxRetries: 3,
@@ -64,13 +64,25 @@ class PostScraper {
     handleMessage(request, sender, sendResponse) {
         switch (request.action) {
             case 'startScraper':
+
+                // pre format selector
+                if(request.selector.indexOf('.') == -1) {
+                    this.config.contentSelector = '.'+request.selector;
+                } else if(request.selector.indexOf('.') == 0) {
+                    this.config.contentSelector = request.selector;
+                } else {
+                    sendResponse({ success: false, message: 'Invalid selector' });
+                    return;
+                }
+
                 this.startScraper();
-                sendResponse({ success: true, message: 'Scraper démarré' });
+                sendResponse({ success: true, message: 'Scraper started' });
+
                 break;
 
             case 'stopScraper':
                 this.stopScraper();
-                sendResponse({ success: true, message: 'Scraper arrêté' });
+                sendResponse({ success: true, message: 'Scraper stopped' });
                 break;
 
             case 'downloadData':
@@ -169,6 +181,15 @@ class PostScraper {
             // Mark as processed
             this.processed.add(post);
             if (postId) this.processedIds.add(postId);
+
+            // check if this is a repost
+            if(post.querySelector('.update-components-header__image')) {
+                post.style.border = '5px solid red'; // easily track ignored posts
+                return;
+            }
+
+            // easily track scrapped posts
+            post.style.border = '5px solid green';
 
             // Extract post data
             const postData = this.extractPostData(post);
@@ -341,7 +362,7 @@ class PostScraper {
             //'Metadata' todo: implement as needed
         ];
 
-        let csv = headers.join(',') + '\n';
+        let csv = headers.join('\t') + '\n';
 
         data.forEach(post => {
             const row = [
